@@ -1,0 +1,45 @@
+ÖZEL SUNUCUYA GİTLAB KURULUMU
+---------------------------------------------------------------
+linux updateleri kontrol et 
+sudo apt update
+---------------------------------------------------------------
+gitlab bağımlılıklarını yükleyin
+sudo apt-get install -y curl openssh-server ca-certificates
+---------------------------------------------------------------
+gitlabı yükleyin
+curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
+---------------------------------------------------------------
+Tamamlandığında ve depo etkinleştirildiğinde, aşağıdaki komutu kullanarak GitLab CE paketini yükleyebilirsiniz.
+sudo apt-get install gitlab-ce
+---------------------------------------------------------------
+Sunucu adresinizi kullanarak kurulum yapmak istiyorsanız, aşağıdakileri yapın
+sudo EXTERNAL_URL="http://gitlabce.example.com" apt-get install gitlab-ce
+---------------------------------------------------------------
+Paketi yükledikten sonra, sağlanan yapılandırma yardımcı programını çalıştırabilirsiniz. Otomatik yapılandırma sağlar. Gerekirse bazı şeyleri daha sonra değiştirebilirsiniz.
+
+sudo gitlab-ctl reconfigure
+gitlab-ctl start
+
+Yapılandırma tamamlandığında, sunucunuz kullanıma hazır olacaktır.
+--------------------------------------------------------------
+https://your_gitlab_domain_or_server_IP
+kullanıcı adı root
+
+--------------------------------------------------------------
+gitlabı otomatik yapılandırma ile kurulduğu için root şifresi 24 saat gecerli ve random olarak oluşur.
+bu şifreği değiştirmek için aşağıdaki komutları uygulayın.
+
+gitlab consolunu açın
+gitlab-rails console -e production
+-------------------------------------------------------------
+rootkullanıcısını seçin
+u = User.where(id:1).first
+-------------------------------------------------------------
+belirlemek istediğiniz parolayı girin
+u.password = 'parola gir'
+u.password_confirmation = 'parolayı tekrar gir'
+-------------------------------------------------------------
+kullanıcıyı kaydedin ve consoldan çıkın
+u.save!
+exit
+-------------------------------------------------------------
